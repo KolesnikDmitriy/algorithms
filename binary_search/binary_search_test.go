@@ -1,4 +1,4 @@
-package binary_search
+package binarysearch
 
 import "testing"
 
@@ -8,15 +8,30 @@ func TestSearch(t *testing.T) {
 		s        int
 		expected bool
 	}{
-		{[]int{5, 8, 2, 4, 7, 2}, 1, false},
-		{[]int{5, 8, 2, 4, 7, 2}, 2, true},
+		{[]int{1, 3, 5, 7, 9, 11}, 1, true},
+		{[]int{1, 3, 5, 7, 9, 11}, 2, false},
 	}
 	for _, tc := range testCases {
-		actual := Search(tc.arr, tc.s)
+		t.Run("Basic", func(t *testing.T) {
+			actual := Search(tc.arr, tc.s)
 
-		if actual != tc.expected {
-			t.Fatalf("Search error: expected: %v, but actual: %v\nsearch %v in arr = %v\n", tc.expected, actual, tc.s, tc.arr)
-		}
+			assertSortIsCorrect(t, actual, tc.expected, tc.s, tc.arr)
+		})
+		t.Run("Easy", func(t *testing.T) {
+			actual := EasySearch(tc.arr, tc.s)
+
+			assertSortIsCorrect(t, actual, tc.expected, tc.s, tc.arr)
+		})
+		t.Run("Super easy", func(t *testing.T) {
+			actual := SuperEasySearch(tc.arr, tc.s)
+
+			assertSortIsCorrect(t, actual, tc.expected, tc.s, tc.arr)
+		})
 	}
+}
 
+func assertSortIsCorrect(t *testing.T, actual bool, expected bool, s int, arr []int) {
+	if actual != expected {
+		t.Fatalf("Search error: expected: %v, but actual: %v\nsearch %v in arr = %v\n", expected, actual, s, arr)
+	}
 }
